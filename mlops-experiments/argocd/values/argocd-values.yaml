@@ -22,14 +22,23 @@ server:
 controller:
   replicas: 1
   
+# repoServer:
+#   replicas: 1
+#   volumes:
+#     - name: helm-cache
+#       emptyDir: {}
+#   volumeMounts:
+#     - name: helm-cache
+#       mountPath: /helm/cache
+
 repoServer:
-  replicas: 1
-  volumes:
-    - name: helm-cache
-      emptyDir: {}
-  volumeMounts:
-    - name: helm-cache
-      mountPath: /helm/cache
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi   
+    limits:
+      cpu: 200m
+      memory: 512Mi
 
 applicationSet:
   replicas: 1
