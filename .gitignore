@@ -1,0 +1,36 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+.terraform.lock.hcl
+
+# Variables (often secrets)
+*.tfvars
+*.tfvars.json
+
+# Local overrides
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+.env
+__pycache__/
+*.pyc
+*.pyo
+venv/          # ← ДОДАТИ
+.venv/         # ← ДОДАТИ (альтернативна назва)
+
+# Project
+best_model/
