@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/tatiana-lapteva/lesson-8-9.git
     targetRevision: main
-    path: argocd/applications
+    path: mlops-experiments/argocd/applications
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

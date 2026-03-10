@@ -31,7 +31,7 @@ module "eks" {
     min_size       = 1
     max_size       = 1
     desired_size   = 1
-
+    subnet_ids = var.subnet_ids
     ami_type = "AL2023_x86_64_STANDARD"
 
     cloudinit_pre_nodeadm = [
