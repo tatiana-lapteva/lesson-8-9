@@ -1,9 +1,11 @@
 configs:
   cm:
-    timeout.reconciliation: 30s
+    timeout.reconciliation: 180s
     accounts.devops: apiKey, login
     exec.enabled: "true"
     server.repo.server.timeout.seconds: "300" 
+  params:
+    reposerver.repo.cache.expiration: 30m
 
   rbac:
     policy.default: role:readonly
@@ -15,23 +17,39 @@ server:
   replicas: 1
   service:
     type: ClusterIP
-
   extraArgs:
     - --insecure                         # ← для t3.micro
-  
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 150m
+      memory: 128Mi
+
 controller:
   replicas: 1
-  
-# repoServer:
-#   replicas: 1
-#   volumes:
-#     - name: helm-cache
-#       emptyDir: {}
-#   volumeMounts:
-#     - name: helm-cache
-#       mountPath: /helm/cache
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
+  extraArgs:
+    - --status-processors=5
+    - --operation-processors=3
 
 repoServer:
+  replicas: 1
+  extraArgs:
+    - --parallelism-limit=1
+  volumes:
+    - name: helm-cache
+      emptyDir: {}
+  volumeMounts:
+    - name: helm-cache
+      mountPath: /helm/cache
   resources:
     requests:
       cpu: 250m
@@ -41,10 +59,23 @@ repoServer:
       memory: 512Mi
 
 applicationSet:
-  replicas: 1
+  enabled: false
+
+notifications:
+  enabled: false
 
 redis:
   enabled: true
+  master:
+    persistence:
+      enabled: false      
+    resources:
+      requests:
+        cpu: 25m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 64Mi
 
 dex:
   enabled: false
