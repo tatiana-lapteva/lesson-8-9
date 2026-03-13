@@ -11,12 +11,16 @@ module "eks" {
   cluster_endpoint_public_access           = true
   enable_cluster_creator_admin_permissions = true
 
+
   cluster_addons = {
-    coredns = {}
-    eks-pod-identity-agent = {}
-    kube-proxy = {}
-    vpc-cni = {}
+  coredns    = {
+    configuration_values = jsonencode({
+      replicaCount = 1  # економія RAM на t3.small
+    })
   }
+  kube-proxy = {}
+  vpc-cni    = {}
+}
 
   eks_managed_node_group_defaults = {
     instance_type = ["t3.micro"]
