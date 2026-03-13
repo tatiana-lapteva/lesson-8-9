@@ -8,15 +8,6 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-resource "kubernetes_namespace" "application" {
-  metadata {
-    name = "application"
-
-    labels = {
-      "app.kubernetes.io/managed-by" = "terraform"
-    }
-  }
-}
 
 resource "helm_release" "argocd" {
   name             = "argocd"
@@ -29,49 +20,17 @@ resource "helm_release" "argocd" {
   timeout          = 600
 
   values = [file("${path.module}/../../argocd/values/argocd-values.yaml")]
-  depends_on = [kubernetes_namespace.argo]
+  depends_on = [kubernetes_namespace.argocd]
 }
 
-
-resource "kubernetes_manifest" "argocd_root_app" {
-  manifest = {
-    apiVersion = "argoproj.io/v1alpha1"
-    kind       = "Application"
-    metadata = {
-      name      = "goit-argo"
-      namespace = var.argocd_namespace
-    }
-    spec = {
-      project = "default"
-      source = {
-        repoURL        = var.argocd_app_repo_url
-        targetRevision = var.argocd_app_revision
-        path           = var.argocd_app_path
-      }
-      destination = {
-        server    = "https://kubernetes.default.svc"
-        namespace = var.argocd_namespace
-      }
-      syncPolicy = {
-        automated = {
-          prune    = true
-          selfHeal = true
-        }
-        retry = {
-          limit = 3
-          backoff = {
-            duration    = "10s"
-            factor      = 2
-            maxDuration = "3m"
-          }
-        }
-        syncOptions = [
-          "CreateNamespace=true",
-          "ServerSideApply=true"
-        ]
-      }
-    }
-  }
-
+resource "null_resource" "argocd_root_app" {
   depends_on = [helm_release.argocd]
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      aws eks update-kubeconfig --region us-east-1 --name goit --profile default
+      kubectl apply -f ${path.module}/../../argocd/application.yaml
+    EOT
+  }
 }
+

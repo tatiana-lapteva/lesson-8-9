@@ -1,6 +1,6 @@
 output "argocd_namespace" {
   description = "Namespace де встановлено Argo CD"
-  value       = kubernetes_namespace.argo.metadata[0].name
+  value       = kubernetes_namespace.argocd.metadata[0].name
 }
 
 output "argocd_helm_version" {
