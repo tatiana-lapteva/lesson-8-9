@@ -21,7 +21,8 @@ variable "vpc_id" {
   description = "VPC id from vpc module"
 }
 
-variable "subnet_ids" {
+variable "public_subnet_ids" {
   type        = list(string)
-  description = "Subnet IDs for EKS (public, as requested)"
+  description = "Public subnet IDs for worker nodes"
 }
+

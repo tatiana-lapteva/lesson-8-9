@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: minio
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   destination:
     namespace: application
@@ -14,6 +16,8 @@ spec:
     targetRevision: 13.7.2
     helm:
       valuesObject:
+        mode: standalone
+        replicas: 1
         auth:
           rootUser: minio
           rootPassword: minio123
@@ -24,8 +28,12 @@ spec:
           enabled: false
         resources:
           requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: "150m"
             memory: "128Mi"
-            cpu: "256m"
+            
   syncPolicy:
     automated:
       prune: true

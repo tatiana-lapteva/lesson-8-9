@@ -3,7 +3,7 @@ configs:
     timeout.reconciliation: 180s
     accounts.devops: apiKey, login
     exec.enabled: "true"
-    server.repo.server.timeout.seconds: "300" 
+    server.repo.server.timeout: "300" 
   params:
     reposerver.repo.cache.expiration: 30m
 
@@ -52,11 +52,11 @@ repoServer:
       mountPath: /helm/cache
   resources:
     requests:
-      cpu: 250m
-      memory: 256Mi   
+      cpu: 100m
+      memory: 128Mi   
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 300m
+      memory: 256Mi
 
 applicationSet:
   enabled: false
