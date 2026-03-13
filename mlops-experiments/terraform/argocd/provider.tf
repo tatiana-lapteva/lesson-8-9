@@ -1,25 +1,29 @@
 terraform {
-    required_version = ">= 1.5.0"
-    
-    required_providers {
-        aws = {
-            source = "hashicorp/aws"
-            version = "> 5.0, < 6.0"
-        }
-        kubernetes = {
-            source  = "hashicorp/kubernetes"
-            version = "> 2.29, < 3.0"
-        }
-        helm = {
-            source  = "hashicorp/helm"
-            version = "> 2.13, < 3.0"
-        }
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.0, < 6.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.29, < 3.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.13, < 3.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = ">= 3.2"
+    }
+  }
 }
 
 provider "aws" {
   region  = var.aws_region
-  profile = "default"
+  profile = var.aws_profile
 }
 
 data "terraform_remote_state" "eks" {
@@ -51,15 +55,5 @@ provider "helm" {
     host                   = data.aws_eks_cluster.cluster.endpoint
     cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
     token                  = data.aws_eks_cluster_auth.cluster.token
-  }
-}
-
-terraform {
-  required_providers {
-    # ... існуючі провайдери ...
-    null = {
-      source  = "hashicorp/null"
-      version = ">= 3.2"
-    }
   }
 }
