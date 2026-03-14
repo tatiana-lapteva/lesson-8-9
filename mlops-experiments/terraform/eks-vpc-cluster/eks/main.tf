@@ -13,24 +13,31 @@ module "eks" {
 
 
   cluster_addons = {
-  coredns    = {
-    configuration_values = jsonencode({
-      replicaCount = 1  # економія RAM на t3.small
-    })
+    vpc-cni = {
+      configuration_values = jsonencode({
+        env = {
+          ENABLE_PREFIX_DELEGATION = "true"
+          WARM_PREFIX_TARGET       = "1"
+        }
+      })
+    }
+    coredns = {
+      configuration_values = jsonencode({
+        replicaCount = 1
+      })
+    }
+    kube-proxy = {}
   }
-  kube-proxy = {}
-  vpc-cni    = {}
-}
+
 
   eks_managed_node_groups = {
     example = {
-      instance_types = ["t3.small"]    # ["t3.micro"]
+      instance_types = ["t3.micro"]
       min_size       = 1
-      max_size       = 3
-      desired_size   = 2
+      max_size       = 5
+      desired_size   = 4  
     }
   }
-
 
 
   tags = {
