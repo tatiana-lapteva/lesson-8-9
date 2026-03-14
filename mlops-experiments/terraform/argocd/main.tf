@@ -18,6 +18,12 @@ resource "helm_release" "argocd" {
   create_namespace = false
   wait             = true
   timeout          = 600
+  cleanup_on_fail  = true  
+
+  set {
+    name  = "crds.keep"
+    value = "false"       
+  }
 
   values = [file("${path.module}/../../argocd/values/argocd-values.yaml")]
   depends_on = [kubernetes_namespace.argocd]
