@@ -14,43 +14,10 @@ configs:
 
 
 server:
-  replicas: 1
   service:
     type: ClusterIP
   extraArgs:
     - --insecure                         # ← для t3.micro
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      cpu: 200m
-      memory: 256Mi
-
-controller:
-  replicas: 1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 192Mi
-    limits:
-      cpu: 500m
-      memory: 384Mi
-  extraArgs:
-    - --status-processors=5
-    - --operation-processors=3
-
-repoServer:
-  replicas: 1
-  extraArgs:
-    - --parallelismlimit=1
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi   
-    limits:
-      cpu: 300m
-      memory: 256Mi
 
 applicationSet:
   enabled: false
@@ -60,16 +27,7 @@ notifications:
 
 redis:
   enabled: true
-  master:
-    persistence:
-      enabled: false      
-    resources:
-      requests:
-        cpu: 25m
-        memory: 32Mi
-      limits:
-        cpu: 100m
-        memory: 64Mi
+  
 
 dex:
   enabled: false
