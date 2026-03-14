@@ -25,9 +25,3 @@ variable "public_subnet_ids" {
   type        = list(string)
   description = "Public subnet IDs for worker nodes"
 }
-
-variable "cluster_name" {
-  description = "EKS cluster name"
-  type        = string
-  default     = "goit"
-}
