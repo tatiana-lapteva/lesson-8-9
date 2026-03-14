@@ -22,13 +22,9 @@ module "eks" {
   vpc-cni    = {}
 }
 
-  eks_managed_node_group_defaults = {
-    instance_type = ["t3.micro"]
-  }
-
   eks_managed_node_groups = {
     example = {
-      instance_types = ["t3.micro"]
+      instance_types = ["t3.small"]    # ["t3.micro"]
       min_size       = 1
       max_size       = 3
       desired_size   = 2

@@ -43,13 +43,7 @@ controller:
 repoServer:
   replicas: 1
   extraArgs:
-    - --parallelism-limit=1
-  volumes:
-    - name: helm-cache
-      emptyDir: {}
-  volumeMounts:
-    - name: helm-cache
-      mountPath: /helm/cache
+    - --parallelismlimit=1
   resources:
     requests:
       cpu: 100m
