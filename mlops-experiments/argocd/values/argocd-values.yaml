@@ -3,7 +3,7 @@ configs:
     timeout.reconciliation: 180s
     accounts.devops: apiKey, login
     exec.enabled: "true"
-    server.repo.server.timeout: "300" 
+    reposerver.exec.timeout: "300" 
   params:
     reposerver.repo.cache.expiration: 30m
 
@@ -22,20 +22,20 @@ server:
   resources:
     requests:
       cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 150m
       memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
 controller:
   replicas: 1
   resources:
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 192Mi
     limits:
-      cpu: 300m
-      memory: 256Mi
+      cpu: 500m
+      memory: 384Mi
   extraArgs:
     - --status-processors=5
     - --operation-processors=3
