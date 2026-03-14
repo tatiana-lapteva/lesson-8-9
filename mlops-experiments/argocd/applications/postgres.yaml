@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://repo.broadcom.com/bitnami-files
+    repoURL: repoURL: https://charts.bitnami.com/bitnami
     chart: postgresql
     targetRevision: 12.5.6
     helm:
@@ -31,3 +31,4 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - SkipDryRunOnMissingResource=true
+      - RespectIgnoreDifferences=true
