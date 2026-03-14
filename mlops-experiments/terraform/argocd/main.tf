@@ -34,7 +34,7 @@ resource "null_resource" "argocd_root_app" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      aws eks update-kubeconfig --region us-east-1 --name ${var.cluster_name} --profile default
+      aws eks update-kubeconfig --region ${var.aws_region} --name ${data.terraform_remote_state.eks.outputs.cluster_name} --profile ${var.aws_profile}
       kubectl wait --for=condition=available deployment/argocd-server -n ${var.argocd_namespace} --timeout=300s
       kubectl apply -f ${path.module}/../../argocd/application.yaml
     EOT
