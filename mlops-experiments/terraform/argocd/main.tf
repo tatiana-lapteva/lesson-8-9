@@ -34,7 +34,8 @@ resource "null_resource" "argocd_root_app" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      aws eks update-kubeconfig --region us-east-1 --name goit --profile default
+      aws eks update-kubeconfig --region us-east-1 --name ${var.cluster_name} --profile default
+      kubectl wait --for=condition=available deployment/argocd-server -n ${var.argocd_namespace} --timeout=300s
       kubectl apply -f ${path.module}/../../argocd/application.yaml
     EOT
   }

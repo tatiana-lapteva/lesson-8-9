@@ -42,10 +42,10 @@ module "eks" {
   
   eks_managed_node_groups = {
     example = {
-      instance_types = ["t3.micro"]
-      min_size       = 1
-      max_size       = 5
-      desired_size   = 4  
+      instance_types = ["t3.small"]
+    min_size       = 1
+    max_size       = 3
+    desired_size   = 2  
     }
   }
 

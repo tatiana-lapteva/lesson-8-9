@@ -57,3 +57,9 @@ variable "argocd_app_path" {
   type        = string
   default     = "mlops-experiments/argocd/applications"
 }
+
+variable "cluster_name" {
+  description = "EKS cluster name"
+  type        = string
+  default     = "goit"
+}
