@@ -19,39 +19,21 @@ spec:
           port: 5000
         auth:
           enabled: false
-        # postgresql:
-        #   enabled: false
-        backendStore:
-          databaseMigration: true
-          databaseConnectionCheck: true
-          postgres:
-            enabled: true
-            host: mlflow-postgres-postgresql.application.svc.cluster.local
-            port: 5432
-            database: mlflow
-            user: mlflow
-            password: mlflowpass
-
-        artifactRoot:
-          s3:
-            enabled: true
-            bucket: mlflow-artifacts
-            awsAccessKeyId: minio
-            awsSecretAccessKey: minio123
-
+        postgresql:
+          enabled: false
+        
         extraEnvVars:
-          # AWS_ACCESS_KEY_ID: "minio"
-          # AWS_SECRET_ACCESS_KEY: "minio123"
+          AWS_ACCESS_KEY_ID: "minio"
+          AWS_SECRET_ACCESS_KEY: "minio123"
           MLFLOW_S3_ENDPOINT_URL: "http://minio.application.svc.cluster.local:9000"
-          # MLFLOW_BACKEND_STORE_URI: "postgresql://mlflow:mlflowpass@mlflow-postgres-postgresql.application.svc.cluster.local:5432/mlflow"
-          # MLFLOW_ARTIFACT_ROOT: "s3://mlflow-artifacts"
-          MLFLOW_S3_IGNORE_TLS: "true"
+          MLFLOW_BACKEND_STORE_URI: "postgresql://mlflow:mlflowpass@postgres-postgresql.application.svc.cluster.local:5432/mlflow"
+          MLFLOW_ARTIFACT_ROOT: "s3://mlflow-artifacts"
 
-        # extraArgs:
-        #   backend-store-uri: "$(MLFLOW_BACKEND_STORE_URI)"
-        #   default-artifact-root: "$(MLFLOW_ARTIFACT_ROOT)"
-        #   host: "0.0.0.0"
-        #   port: "5000"
+        extraArgs:
+          backend-store-uri: ""postgresql://mlflow:mlflowpass@postgres-postgresql.application.svc.cluster.local:5432/mlflow""
+          default-artifact-root: "s3://mlflow-artifacts"
+          host: "0.0.0.0"
+          port: "5000"     
 
   destination:
     namespace: application

@@ -16,8 +16,6 @@ spec:
     targetRevision: 13.7.2
     helm:
       valuesObject:
-        mode: standalone
-        replicas: 1
         auth:
           rootUser: minio
           rootPassword: minio123
@@ -26,13 +24,6 @@ spec:
           type: ClusterIP
         persistence:
           enabled: false
-        resources:
-          requests:
-            cpu: 50m
-            memory: 64Mi
-          limits:
-            cpu: "150m"
-            memory: "128Mi"
             
   syncPolicy:
     automated:
