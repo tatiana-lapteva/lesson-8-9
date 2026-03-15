@@ -17,6 +17,8 @@ spec:
         service:
           type: ClusterIP
           port: 9091
+          annotations:
+            prometheus.io/probe: pushgateway
   project: default
   syncPolicy:
     syncOptions:
